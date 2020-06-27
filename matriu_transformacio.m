@@ -1,5 +1,5 @@
 function C=matriu_transformacio(x1,x2,x3,x4);
-%x1=[450,132]; x2=[1392,117]; x3=[561,848]; x4=[1269,820];
+%Generació matriu C per fer la correció de perspectiva
 xE=x1(1); xD=x2(1); xe=x3(1); xd=x4(1);
 yE=x1(2); yD=x2(2); ye=x3(2); yd=x4(2);
 
