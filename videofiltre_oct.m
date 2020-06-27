@@ -1,4 +1,4 @@
-%% Obrim video
+% Obrim video
 function videofiltre_oct(nomvideo,nounomvideo)
 tic
 video=VideoReader(nomvideo); 
@@ -6,14 +6,14 @@ n=video.NumberOfFrames;
 c=floor(n/50);
 vector=floor(linspace(1,n,50));
 k=1;
-
+%Guardem 50 imatges equiespaiades
 for q=vector
     img=read(video,q);
     gray(:,:,k) = rgb2gray(img);
     k = k+1;
 end
 toc
-%%
+% Busquem la posició del ratolí
 ratoli = zeros(2,50);
 cen=[190;190];
 for i = 1:50
@@ -38,7 +38,7 @@ end
 [m,esq]=min(ratoli(1,:));
 [m,dret]=max(ratoli(1,:));
 %toc
-%%
+% Busquem les dues posicions més separades per fer el filtre
 [m,top]=min(ratoli(2,:));
 [m,bot]=max(ratoli(2,:));
 updown=round((ratoli(2,bot)+ratoli(2,top))/2);
@@ -57,11 +57,11 @@ else
     framedret=read(video,drett);
     filtre(:,1:leftright,:)=framedret(:,1:leftright,:);
 end
-
+%Obtenim el filtre
 imshow(filtre)
 toc
 
-%%
+% Apliquem el filtre
 p=VideoWriter(nounomvideo);
 open(p)
 for u=[1:n]
