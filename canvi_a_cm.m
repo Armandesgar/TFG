@@ -1,5 +1,5 @@
 function [nasX,nasY,adhX,adhY,potaEX,potaEY,potaDX,potaDY,potaeX,potaeY,potadX,potadY,cuaX,cuaY,ficuaX,ficuaY]=canvi_a_cm(C,nas,adh,potaE,potaD,potae,potad,cua,ficua)
-
+%Fem la correcció de perspectiva, per trobar les coordenades de la capsa.
 nas=C*nas; nasX=nas(1,:)./nas(3,:); nasY=nas(2,:)./nas(3,:);
 adh=C*adh; adhX=adh(1,:)./adh(3,:); adhY=adh(2,:)./adh(3,:);
 potaE=C*potaE; potaEX=potaE(1,:)./potaE(3,:); potaEY=potaE(2,:)./potaE(3,:);
