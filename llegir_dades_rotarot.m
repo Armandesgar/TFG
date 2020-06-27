@@ -5,11 +5,9 @@ t.Properties.VariableNames={'scorer','Ratoli_1_X','Ratoli_1_Y','LRatoli_1','Rato
 Ratoli_1_X=cellfun(@str2num,t.Ratoli_1_X(4:end));
 Ratoli_1_Y=cellfun(@str2num,t.Ratoli_1_Y(4:end));
 LRatoli_1=cellfun(@str2num,t.LRatoli_1(4:end));
-%Adhesiu
 Ratoli_2_X=cellfun(@str2num,t.Ratoli_2_X(4:end));
 Ratoli_2_Y=cellfun(@str2num,t.Ratoli_2_Y(4:end));
 LRatoli_2=cellfun(@str2num,t.LRatoli_2(4:end));
-%Potes de davant
 Ratoli_3_X=cellfun(@str2num,t.Ratoli_3_X(4:end));
 Ratoli_3_Y=cellfun(@str2num,t.Ratoli_3_Y(4:end));
 LRatoli_3=cellfun(@str2num,t.LRatoli_3(4:end));
