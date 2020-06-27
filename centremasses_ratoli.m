@@ -1,16 +1,15 @@
 function ratoli=centremasses_ratoli(video)
+%Llegim el vídeo
 video=VideoReader(video); 
 n=video.NumberOfFrames;
-% c=floor(n/50);
-% vector=floor(linspace(1,n,50));
 k=1;
-
+%S'agafen 50 imatges equiespaiades, per a no ocupar tota la memòria.
 for q=[1:n]
     img=read(video,q);
     gray(:,:,k) = rgb2gray(img);
     k = k+1;
 end
-
+%Busquem la regió que identifica el ratolí
 ratoli = zeros(2,n);
 for i = 1:n
     I = (gray(:,:,i)<45);
