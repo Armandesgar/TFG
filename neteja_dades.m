@@ -1,9 +1,11 @@
-%% Neteja de dades
+% Eliminació de pics
 function dada=neteja_dades(dada)
 error=10;
+%Ho repetim fins que no trobi diferencies amb l'iteració anterior
 while error>0.1
     DADA=dada;
     O=[];
+    %Diferenta tipus de pics
     for o=[2:length(dada)-1]
         if abs(dada(o-1)-dada(o))>1 & abs(dada(o)-dada(o+1))>1
             O=[O,o];
