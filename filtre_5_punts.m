@@ -1,4 +1,5 @@
 function nouvector=filtre_5_punts(vector);
+%Filtre de 5 punts i les diferents versions provades
 %prova 1,3,5,3,1 i dividit per 13
 %prova 1,2,3,2,1 i dividit per 9
 %prova 1,3,7,3,1 i dividit per 15
