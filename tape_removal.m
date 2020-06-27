@@ -1,24 +1,25 @@
 function [Deteccio,Treu]=tape_removal(nomcsv,nomcsv_linees)
+%Llegim dades
 [nas,adh,potaE,potaD,potae,potad,cua,ficua]=llegir_dades(nomcsv);
 [x1,x2,x3,x4]=punts_linees(nomcsv_linees);
 C=matriu_transformacio(x1,x2,x3,x4);
 [nasX,nasY,adhX,adhY,potaEX,potaEY,potaDX,potaDY,potaeX,potaeY,potadX,potadY,~,~,~,~]=canvi_a_cm(C,nas,adh,potaE,potaD,potae,potad,cua,ficua);
 time=(1:length(nasX))/25;
-%neteja dades
+%filtre de pic
 nasX=neteja_dades(nasX);        nasY=neteja_dades(nasY);
 adhX=neteja_dades(adhX);        adhY=neteja_dades(adhY);
 potaDX=neteja_dades(potaDX);    potaEY=neteja_dades(potaEY);
 potaEX=neteja_dades(potaEX);    potaEY=neteja_dades(potaEY);
 potadX=neteja_dades(potadX);    potadY=neteja_dades(potadY);
 potaeX=neteja_dades(potaeX);    potaeY=neteja_dades(potaeY);
-%filtre
+%filtre 5 punts
 nasX=filtre_5_punts(nasX);      nasY=filtre_5_punts(nasY);
 adhX=filtre_5_punts(adhX);      adhY=filtre_5_punts(adhY);
 potaDX=filtre_5_punts(potaDX);  potaEY=filtre_5_punts(potaEY);
 potaEX=filtre_5_punts(potaEX);  potaEY=filtre_5_punts(potaEY);
 potadX=filtre_5_punts(potadX);  potadY=filtre_5_punts(potadY);
 potaeX=filtre_5_punts(potaeX);  potaeY=filtre_5_punts(potaeY);
-%Càlcul de velocitats
+%CÃ lcul de velocitats
 CENTREX=(potaEX+potaDX+potaeX+potadX)/4;
 CENTREY=(potaEY+potaDY+potaeY+potadY)/4;
 Modul_velocitat=sqrt(((CENTREX(2:end)-CENTREX(1:end-1))*25).^2+((CENTREY(2:end)-CENTREY(1:end-1))*25).^2);
@@ -29,24 +30,25 @@ velocitatA=(posicioA_2-posicioA_1)*25;
 velocitat_nas=sqrt(((nasX(2:end)-nasX(1:end-1))*25).^2+((nasY(2:end)-nasY(1:end-1))*25).^2);
 velocitatpotaE=sqrt(((potaEX(2:end)-potaEX(1:end-1))*25).^2+((potaEY(2:end)-potaEY(1:end-1))*25).^2);
 velocitatpotaD=sqrt(((potaDX(2:end)-potaDX(1:end-1))*25).^2+((potaDY(2:end)-potaDY(1:end-1))*25).^2);
-%Càlcul de velocitats
+%CÃ lcul de velocitats
 distanciamorro=sqrt((nasX-adhX).^2+(nasY-adhY).^2);
 distanciapotes=sqrt((potaEX-potaDX).^2+(potaEY-potaDY).^2);
 distanciaadhD=sqrt((potaDX-adhX).^2+(potaDY-adhY).^2);
 distanciaadhE=sqrt((potaEX-adhX).^2+(potaEY-adhY).^2);
-%Ictus
+%Busquem deteccions i quan es treu l'adhesiu
 p=round(time(end));
 i=0;    j=0;    k=0;    
 g=-1;   h=-1;   c=0;    
 pii=NaN;    pj=NaN;     pk=NaN;
 flag=0;
 detec=[];
+%Busquem quina pota porta l'adhesiu
 if mean(distanciaadhE)<mean(distanciaadhD)
     disp('Adh-Esquerra')
     while p<(length(distanciaadhE)-5) && p<2000 && (mean(abs(Modul_velocitat))>1.4 || abs(mean(abs(Modul_velocitat))-mean(abs(velocitatpotaE)))<0.1 || mean(velocitatpotaE)>1.5)
         
-        %Busquem detecció
-        if distanciapotes(p)<0.76 && distanciaadhE(p)<0.65
+        %Busquem detecciÃ³ amb les potes
+        if distanciapotes(p)<0.75 && distanciaadhE(p)<0.65
             j=j+1;
             %p
             %mean(abs(velocitatpotaE(p-10:p)))
@@ -62,6 +64,7 @@ if mean(distanciaadhE)<mean(distanciaadhD)
                    if (distanciaadhE(pp)>max(0.4,mean(distanciaadhE)+2/3*std(distanciaadhE)) && abs(velocitatA(pp))<1.5)
                         i=i+1;
                         if i==15
+                        %Se l'ha tret
                             disp(strcat("S'ha adonat, fa servir les potes al segon ",num2str((p-15)/30)))
                             pj=(p-10)/30;
                             disp(strcat("S'ha tret l'adhesiu al segon ",num2str((pp-15)/30)))
@@ -78,8 +81,8 @@ if mean(distanciaadhE)<mean(distanciaadhD)
         else
             j=0;
         end
-        
-        if distanciamorro(p)<0.76 && distanciaadhE(p)<0.65
+        %Amb el morro
+        if distanciamorro(p)<0.75 && distanciaadhE(p)<0.65
             k=k+1;
             if k>=10 && mean(abs(velocitat_nas(p-10:p)))>0.5
                 pm=p;
@@ -114,7 +117,7 @@ if mean(distanciaadhE)<mean(distanciaadhD)
         end
         p=p+1;
     end
-    
+%RepeticiÃ³ per l'altre pota
 elseif mean(distanciaadhE)>mean(distanciaadhD)
     disp('Adh-Dreta')
     while p<(length(distanciaadhE)-5) && p<2000 && (mean(abs(Modul_velocitat))>1.4 || abs(mean(abs(Modul_velocitat))-mean(abs(velocitatpotaD)))<0.1 || mean(velocitatpotaD)>1.5)
@@ -198,6 +201,7 @@ end
 
 Deteccio=min(pk,pj);
 Treu=pii;
+%Altres casos, quan no se l'ha tret o no l'ha detectat
 if Deteccio==60 && Treu==60 && mean(distanciaadhE)<mean(distanciaadhD)
     for p=1:(length(velocitatA))
         if(distanciaadhE(p)>1.9 && abs(velocitatA(p))<1.5)
@@ -221,7 +225,7 @@ if Deteccio==60 && Treu==60 && mean(distanciaadhD)<mean(distanciaadhE)
         else
             c=0;
         end
-
+%Se li ha caigut?
         if c==40
             disp(strcat("Se li ha caigut al segon ",num2str((p-40)/30)))
             Treu=(p-40)/30;
