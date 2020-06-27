@@ -106,7 +106,7 @@ Identificador=str2num(string(noms(1))); CostatChar=char(noms(2));   Identificado
 Nomcomplert_str=strcat(IdentificadorChar,'-',CostatChar(3),CostatChar(1));
 Nomcomplert_string=convertCharsToStrings(Nomcomplert_str);
 
-%Fiquem coses
+%Afegim dades
 
 if length(NomComplert)==0
     NomComplert=cellstr(Nomcomplert_string);
@@ -316,7 +316,7 @@ else
     Temps_angle_0negatiu(index)=temps_angle_0negatiu;
     TempsRotarot(index)=temps;
 end
-%Falta passar-ho a columnes i després ficar-ho dins la taula
+
 NomComplert=NomComplert(:);
 
 Superficie_1=Superficie_1(:);    Rati_Volum_Infartat_1=Rati_Volum_Infartat_1(:);
