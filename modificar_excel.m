@@ -1,4 +1,5 @@
 function modificar_excel(nom_excel,Treu,Deteccio,nomcsv)
+%Funció per modificar l'excel
 T = readtable(nom_excel);
 Individu=T.Individu; NomComplert=T.NomComplert;
 Detecta_dreta=T.Detecta_dreta; Treu_dreta=T.Treu_dreta; 
@@ -7,7 +8,7 @@ noms=split(nomcsv,'-');
 Identificador=str2num(string(noms(1))); CostatChar=char(noms(2));   IdentificadorChar=char(noms(1));
 Nomcomplert_str=strcat(IdentificadorChar,'-',CostatChar(3));
 Nomcomplert_string=convertCharsToStrings(Nomcomplert_str);
-%Caso Izquierda
+%Cas Esquerra
 
 if CostatChar(1)=='E'
    
@@ -31,7 +32,7 @@ if CostatChar(1)=='E'
             Treu_esquerra(index)=Treu;
         end
     %Si no coincideix, com es la primera vegada que inicialitzem la columna
-    %pues li diem que els que encara no tenim dades pues s�n 0
+    %li diem que els que encara no tenim dades pues són 0
     
     else
         index=length(NomComplert)+1;
@@ -75,5 +76,5 @@ Detecta_dreta=Detecta_dreta(:);       Treu_dreta=Treu_dreta(:);
 Detecta_esquerra=Detecta_esquerra(:); Treu_esquerra=Treu_esquerra(:);
 T=table(Individu,Detecta_dreta,Treu_dreta,Detecta_esquerra,Treu_esquerra,NomComplert);
 
-%Caso derecha
+
 writetable(T,nom_excel,'WriteRowNames',true)
