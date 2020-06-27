@@ -1,4 +1,5 @@
 function [Ratoli_1_Y,LRatoli_1,Ratoli_2_Y,LRatoli_2,Ratoli_3_Y,LRatoli_3,Ratoli_4_Y,LRatoli_4]=llegir_dades_rotarot(nomcsv);
+%Llegim dades
 t=readtable(nomcsv);
 t.Properties.VariableNames={'scorer','Ratoli_1_X','Ratoli_1_Y','LRatoli_1','Ratoli_2_X','Ratoli_2_Y','LRatoli_2','Ratoli_3_X','Ratoli_3_Y','LRatoli_3','Ratoli_4_X','Ratoli_4_Y','LRatoli_4'};
 Ratoli_1_X=cellfun(@str2num,t.Ratoli_1_X(4:end));
