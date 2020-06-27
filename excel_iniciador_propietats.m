@@ -1,4 +1,5 @@
 function excel_iniciador_propietats(nom_excel)
+%Iniciem l'excel
 NomComplert=[];
 
 Superficie_1=[];    Rati_Volum_Infartat_1=[];
