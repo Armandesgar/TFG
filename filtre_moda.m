@@ -15,7 +15,9 @@ for q=vector
     b(:,:,k)=img(:,:,3);
     k = k+1;
 end
-%% Fem la moda de cada component
+%
+% Fem la moda de cada component
+
 A(:,:,1)=mode(r,3);
 
 R=double(r);
