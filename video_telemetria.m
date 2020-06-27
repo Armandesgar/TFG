@@ -1,11 +1,8 @@
+%Codi per generar un video amb diferents grÃ fiques mostrant en temps real el valor d'algunes variables
 video=VideoReader('Esquelet_amb_filtre_de_dades_607DR2.avi'); %Usar el de los datos mejorados
-esquelet=VideoReader('Fake-ratolí-cm.avi');
+esquelet=VideoReader('Fake-ratolÃ­-cm.avi');
 figure(1)
-% L=VideoWriter('Telemetria-10k-607-DR2');
-% L.FrameRate=25;
-% open(L)
-%velocitatA(end+1)=velocitatA(end);
-%axesimg=get(img,'Current Axis')
+
 n=esquelet.NumberOfFrames
 for p=[1:n]
     ax1=axes('Position',[0.02 0.40 0.5 0.55]);
@@ -22,7 +19,7 @@ for p=[1:n]
     ax3=axes('Position',[0.6,0.4,0.35,0.25]);
     plot(time(1:p),a(1:p))
     axis([0,8,0,180])
-    ylabel('Angle de la cua (º)')
+    ylabel('Angle de la cua (Âº)')
     grid on
     ax4=axes('Position',[0.6,0.1,0.35,0.25]);
     plot(time(1:p),velocitatA(1:p))
