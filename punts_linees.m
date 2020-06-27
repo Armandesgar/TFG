@@ -1,4 +1,5 @@
 function [x1,x2,x3,x4]=punts_linees(nomcsv_linees)
+%Identificació dels 4 punts per fer la matriu de correcció de perspectiva
 t=readtable(nomcsv_linees);
 t.Properties.VariableNames={'scorer','AEX','AEY','LAE','ADX','ADY','LAD','aEX','aEY','LaE','aDX','aDY','LaD'};
 
