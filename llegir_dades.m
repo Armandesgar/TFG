@@ -1,4 +1,5 @@
 function [nas,adh,potaE,potaD,potae,potad,cua,ficua]=llegir_dades(nomcsv);
+%Llegim dades
 t=readtable(nomcsv);
 t.Properties.VariableNames={'scorer','nasX','nasY','Lnas','adhX','adhY','Ladh','potaEX','potaEY','LpotaE','potaDX','potaDY','LpotaD','potaeX','potaeY','Lpotae','potadX','potadY','Lpotad','cuaX','cuaY','Lcua','ficuaX','ficuaY','Lficua'};
 nasX=cellfun(@str2num,t.nasX(4:end));
