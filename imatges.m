@@ -1,4 +1,5 @@
 function [AreaInfartada1,AreaInfartada2,AreaInfartada3,AreaInfartada4,AreaInfartada1V,AreaInfartada2V,AreaInfartada3V,AreaInfartada4V,densitat_pixels,AreaIpsi1,AreaIpsi2,AreaIpsi3,AreaIpsi4,AreaIpsiV1,AreaIpsiV2,AreaIpsiV3,AreaIpsiV4,AreaContra1,AreaContra2,AreaContra3,AreaContra4,AreaContraV1,AreaContraV2,AreaContraV3,AreaContraV4,Rati1,Rati2,Rati3,Rati4,Rati1V,Rati2V,Rati3V,Rati4V]=imatges(nomimatge)
+%Llegim imatges i convertim a YCBCR
 img=imread(nomimatge);
 I=rgb2ycbcr(img);
 I=double(I);
@@ -9,10 +10,7 @@ Y=Y(:);     Cr=Cr(:);
 [countsY]=hist(Y,rang);
 countsCr=hist(Cr,rang);
 
-% Buscamos m·ximos i mÌnimos
-%FIX
-% [~,maximY]=max(countsY(80:end));
-% maximY=maximY+79;
+% Busquem m√†xim i m√≠nims de la distribuci√≥ de components, per a generar les diferents m√†scares.
 [~,maximY]=max(countsY);
 %
 [~,segonpic]=findpeaks(countsY,'MinPeakDistance',30);
@@ -22,7 +20,7 @@ minim_segon_pic=-countsY(segonpic(posiciomaxim+1)-30:segonpic(posiciomaxim+1)+30
 pepe=1;
 
 if pepe==1 && countsY(segonpic(posiciomaxim+1))-countsY(segonpic(posiciomaxim+1)-15)>750 && countsY(segonpic(posiciomaxim+1))-countsY(segonpic(posiciomaxim+1)+15)>1000 && segonpic(posiciomaxim+1)<210 && segonpic(posiciomaxim+1)>190
-    disp('Hola')
+    %disp('Hola')
     Yvectormin=countsY(115:maximY);
     [~,posicio]=min(Yvectormin);
     thresholdminY=114+posicio;
@@ -66,7 +64,7 @@ if pepe==1 && countsY(segonpic(posiciomaxim+1))-countsY(segonpic(posiciomaxim+1)
     Cervell(Cervell==2)=1;
     
 else
-    disp('JEJE')
+    %disp('JEJE')
     Yvectormin=countsY(70:maximY);
     [~,posicio]=min(Yvectormin);
     thresholdminY=70+posicio;
@@ -126,7 +124,7 @@ CervellVertical(:,round(cen(1,4)))=0;       CervellVertical(:,round(cen(1,5)))=0
 InfartatVertical(:,round(cen(1,2)))=0;      InfartatVertical(:,round(cen(1,3)))=0;
 InfartatVertical(:,round(cen(1,4)))=0;      InfartatVertical(:,round(cen(1,5)))=0;
 
-% DivisiÛ
+% Divisi√≥, busquem secci√≥ per secci√≥ on es situen els elements sim√®trics.
 if nomimatge(11)=='a'
 
 img(:,round(cen(1,2)),:)=0;
@@ -463,85 +461,7 @@ else
     end
 end
 
-% Seccio_8
 
-% Centre_masses_model=[506;330];
-% Bottom_model=[506;680]; Top_model=[506;206];
-% M=imread('EscorÁa_sense_fons.png');
-% 
-% %Com les imatges no tenen el mateix tamany primer buscarem dos punts 
-% Seccio_8_abaix=Cervell(round(cen(2,5)):round(cen(2,5))+70,round(cen(1,5))-15:round(cen(1,5))+9);
-% [maxim_Seccio_8_abaix,posicio_Seccio_8_abaix]=min(Seccio_8_abaix);
-% [Seccio_8_abaix_y,Seccio_8_abaix_x]=min(posicio_Seccio_8_abaix);
-% Isconstant_8_inferior=[];
-% isconstant_8_inferior=Seccio_8_abaix_x;
-% isconstant_8_inferior_inicial=Seccio_8_abaix_x;
-% 
-% Seccio_8_adalt=Cervell(round(cen(2,5))-75:round(cen(2,5)),round(cen(1,5))-15:round(cen(1,5))+15);
-% [maxim_Seccio_8_adalt,posicio_Seccio_8_adalt]=max(Seccio_8_adalt);
-% [Seccio_8_adalt_y,Seccio_8_adalt_x]=max(posicio_Seccio_8_adalt);
-% Isconstant_8_sup=[];
-% isconstant_8_sup=Seccio_8_adalt_x;
-% isconstant_8_sup_inicial=Seccio_8_adalt_x;
-% 
-% for u=1:15;
-%     if isconstant_8_inferior_inicial+8<length(posicio_Seccio_8_abaix)
-%         if abs(posicio_Seccio_8_abaix(max(u,isconstant_8_inferior_inicial-7+u))-Seccio_8_abaix_y)<=1
-%             Isconstant_8_inferior=[Isconstant_8_inferior,isconstant_8_inferior];
-%             isconstant_8_inferior=isconstant_8_inferior+1;
-%         end
-%     else
-%         if abs(posicio_Seccio_8_abaix(end-u+1)-Seccio_8_abaix_y)<=1
-%             Isconstant_8_inferior=[Isconstant_8_inferior,length(posicio_Seccio_8_abaix)-u+1];
-%         end
-%     end
-%     
-%     if isconstant_8_sup_inicial+8<length(posicio_Seccio_8_adalt)
-%         if abs(posicio_Seccio_8_adalt(max(u,isconstant_8_sup_inicial-7+u))-Seccio_8_adalt_y)<=1
-%             Isconstant_8_sup=[Isconstant_8_sup,isconstant_8_sup];
-%             isconstant_8_sup=isconstant_8_sup+1;
-%         end
-%     else
-%         if abs(posicio_Seccio_8_adalt(end-u+1)-Seccio_8_adalt_y)<=1
-%             Isconstant_8_sup=[Isconstant_8_sup,length(posicio_Seccio_8_abaix)-u+1];
-%         end
-%     end
-% end
-% %Promitjos
-% Seccio_8_abaix_x=sum(Isconstant_8_inferior)/(length(Isconstant_8_inferior));
-% Seccio_8_abaix_y=Seccio_8_abaix_y+round(cen(2,5));
-% Seccio_8_abaix_x=Seccio_8_abaix_x+round(cen(1,5))-15;
-% Seccio_8_adalt_y=Seccio_8_adalt_y+round(cen(2,5))-75;
-% Seccio_8_adalt_x=Seccio_8_adalt_x+round(cen(1,5))-15;
-% % figure(52)
-% % imshow(img)
-% % hold on
-% % plot(Seccio_8_abaix_x,Seccio_8_abaix_y,'oc')
-% % plot(Seccio_8_adalt_x,Seccio_8_adalt_y,'oc')
-% % plot(cen(1,5),cen(2,5),'or')
-% factor_resize=(Seccio_8_abaix_y-Seccio_8_adalt_y)/(Bottom_model(2)-Top_model(2));
-% M_resize=imresize(M,factor_resize,'bilinear');
-% Mbin_resize=im2bw(M_resize,0.05);
-% x12=Seccio_8_abaix_x-Seccio_8_adalt_x; y12=Seccio_8_abaix_y-Seccio_8_adalt_y;
-% x32=0; y32=y12;
-% ang = mod(atan2(x12*y32-x32*y12,x12*x32+y12*y32),2*pi);
-% Mbin_resize=imrotate(Mbin_resize,ang);
-% 
-% desplacament_x=cen(1,5)-Centre_masses_model(2);
-% desplacament_y=cen(2,5)-Centre_masses_model(1);
-% tamany_M=size(Mbin_resize);
-% image_model=zeros(tamany(1),tamany(2),3);
-% 
-% Centre_masses_resize=round([506;440]*factor_resize);
-% image_model(round(cen(2,5))-Centre_masses_resize(2):round(cen(2,5))-Centre_masses_resize(2)+tamany_M(1)-1,round(cen(1,5))-Centre_masses_resize(1):round(cen(1,5))-1-Centre_masses_resize(1)+tamany_M(2),1)=Mbin_resize;
-% image_model(round(cen(2,5))-Centre_masses_resize(2):round(cen(2,5))-Centre_masses_resize(2)+tamany_M(1)-1,round(cen(1,5))-Centre_masses_resize(1):round(cen(1,5))-1-Centre_masses_resize(1)+tamany_M(2),2)=Mbin_resize;
-% image_model(round(cen(2,5))-Centre_masses_resize(2):round(cen(2,5))-Centre_masses_resize(2)+tamany_M(1)-1,round(cen(1,5))-Centre_masses_resize(1):round(cen(1,5))-1-Centre_masses_resize(1)+tamany_M(2),3)=Mbin_resize;
-% image_model=image_model(1:tamany(1),1:tamany(2),:);
-% img(image_model==1)=0;
-% Cervell(image_model(:,:,1)==1)=0;
-% Infartat(image_model(:,:,1)==1)=0;
-
-%Quitar esto tras descomentar
 Cervell(:,round(cen(1,5)))=0;
 end
 [Cervell,n]=bwlabel(Cervell);
@@ -567,7 +487,7 @@ identificador_1(:,round(cen(1,8)):round(cen(1,9)))=Eliminacio_pics(:,round(cen(1
 
 Infartat(logical(identificador_1))=0;
 
-% Zona infartada
+% C√†lcul i identificaci√≥ de la zona infartada
 [Infartat,~]=bwlabel(Infartat);
 rpinfartada = regionprops(Infartat,{'Area','Centroid'});
 AreaInfartada = [rpinfartada.Area];
@@ -592,7 +512,7 @@ if nomimatge(11)=='p'
     Rati2=AreaInfartada2/Area(5);   AreaIpsi2=Area(5);      AreaContra2=Area(4);
     Rati3=AreaInfartada3/Area(7);   AreaIpsi3=Area(7);      AreaContra3=Area(6);
     Rati4=AreaInfartada4/Area(9);   AreaIpsi4=Area(9);      AreaContra4=Area(8);
-    % Aquest no est‡ bÈ perquË 
+    % Aquest no est√† b√© perqu√® 
 end
 
 if nomimatge(11)=='a'
@@ -613,11 +533,11 @@ if nomimatge(11)=='a'
 
 end
 
-% Visualitzar regiÛ infartada
+% Visualitzar regi√≥ infartada
 R=img(:,:,1); G=img(:,:,2); B=img(:,:,3);
 R(Infartat>0)=255; G(Infartat>0)=230; B(Infartat>0)=0;
 IMG(:,:,1)=R; IMG(:,:,2)=G; IMG(:,:,3)=B;
-% DetecciÛ densitat de pixels
+% Detecci√≥ densitat de pixels
 mida=size(Linees); ample=mida(2); alcada=mida(1);
 Linees(:,round(ample/16),:)=0;
 %Linees(round(alcada/32),:,:)=0;
@@ -666,7 +586,7 @@ identificador_1(:,round(cen(1,8)):round(cen(1,9)))=Eliminacio_pics(:,round(cen(1
 
 Infartat(logical(identificador_1))=0;
 
-% Zona infartada
+% Zona infartada metode vertical
 [Infartat,~]=bwlabel(InfartatVertical);
 rpinfartada = regionprops(Infartat,{'Area','Centroid'});
 AreaInfartada = [rpinfartada.Area];
@@ -691,7 +611,7 @@ if nomimatge(11)=='p'
     Rati2V=AreaInfartada2V/Area(5);     AreaIpsiV2=Area(5);     AreaContraV2=Area(4);
     Rati3V=AreaInfartada3V/Area(7);     AreaIpsiV3=Area(7);     AreaContraV3=Area(6);
     Rati4V=AreaInfartada4V/Area(9);     AreaIpsiV4=Area(9);     AreaContraV4=Area(8);
-    % Aquest no est‡ bÈ perquË 
+    % Aquest no est√† b√© perqu√® 
 end
 if nomimatge(11)=='a'
     dist1= sum((ceninfartada-cen(:,2)).^2);
